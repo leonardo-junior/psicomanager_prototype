@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 60px;
+  background-color: #ccc;
+  padding: 0 16px;
+
+  @media screen and (min-width: 767px) {
+    padding: 0 48px;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1140px;
+  }
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: 500;
+  color: #414141;
+
+  @media (pointer: fine) {
+    cursor: pointer;
+  }
+}

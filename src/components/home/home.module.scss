@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 32px 16px;
+
+  @media screen and (min-width: 767px) {
+    padding: 32px 48px;
+  }
+
+  main {
+    color: #414141;
+    width: 100%;
+    max-width: 1140px;
+  }
+}
