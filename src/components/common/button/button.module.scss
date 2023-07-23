@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  border: none;
+  width: max-content;
+  padding: 4px 16px;
+  font-size: 16px;
+
+  @media (pointer: fine) {
+    cursor: pointer;
+  }
+}
+
+.primary {
+  background-color: #414141;
+  color: #f1f1f1;
+
+  &:hover{
+    opacity: 0.8;
+  }
+}
+
+.secondary {
+  font-size: 16px;
+  background-color:transparent;
+  color: #7c7c7c;
+
+  &:hover{
+    background-color: #f5f5f5;
+  }
+}
