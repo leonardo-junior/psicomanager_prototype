@@ -3,34 +3,63 @@ import styles from './home.module.scss'
 import { Button } from 'components/common/button/button'
 import { BsPlus } from 'react-icons/bs'
 import { Modal } from 'components/common/modal'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { roboto } from 'components/common/fonts'
+import { Post as PostType, getPostsService } from 'api/services/posts/getPosts'
+import { createPostService } from 'api/services/posts/createPost'
+
+type CreatePost = {
+  title: string
+  body: string
+}
 
 export const Home = () => {
+  const [posts, setPosts] = useState<PostType[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { register, handleSubmit, reset } = useForm()
+  const { register, handleSubmit, reset } = useForm<CreatePost>()
 
-  const posts = [
-    { title: 'Example', text: 'Text Example' },
-    { title: 'Example', text: 'Text Example' },
-    { title: 'Example', text: 'Text Example' },
-  ]
+  useEffect(() => {
+    fetchPostsData()
+  }, [])
 
-  function closeModal() {
-    reset()
-    setIsModalOpen(false)
+  async function fetchPostsData() {
+    try {
+      const data = await getPostsService()
+
+      const dataSortedAlphabetically = data.sort((a, b) => a.title.localeCompare(b.title))
+
+      setPosts(dataSortedAlphabetically)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function createPost(post: CreatePost) {
+    try {
+      await createPostService(post)
+
+      closeModal()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   function openModal() {
     setIsModalOpen(true)
   }
 
-  const confirmText =
-    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae eum quaerat minus dolorum eligendi ad quam laudantium amet hic corporis. Praesentium eum molestiae debitis incidunt? Animi consequatur officiis beatae in?'
+  function closeModal() {
+    reset()
+    setIsModalOpen(false)
+  }
 
-  function onSubmit(data: any) {
-    console.log(data)
+  function onSubmit(data: CreatePost) {
+    const repeatedTitle = posts.some(({ title }) => data.title.toLowerCase() === title.toLowerCase())
+
+    if (repeatedTitle) return
+
+    createPost(data)
   }
 
   return (
@@ -44,7 +73,7 @@ export const Home = () => {
 
           <div>
             <label>Texto</label>
-            <textarea className={roboto.className} {...register('text', { required: true })} />
+            <textarea className={roboto.className} {...register('body', { required: true })} />
           </div>
         </form>
 
@@ -61,9 +90,9 @@ export const Home = () => {
             </Button>
 
             <ul className={styles.posts}>
-              {posts.map(({ text, title }, index) => (
-                <li key={index}>
-                  <Post id={index} title={title} text={text} />
+              {posts.map(({ title, body, id }) => (
+                <li key={id}>
+                  <Post id={id} title={title} text={body} />
                 </li>
               ))}
             </ul>

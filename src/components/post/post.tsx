@@ -1,9 +1,10 @@
 import { BsTrashFill } from 'react-icons/bs'
-
 import styles from './post.module.scss'
 import { Button } from 'components/common/button/button'
 import { Modal } from 'components/common/modal'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { getCommentsService } from 'api/services/comments/getComments'
+import { deletePostService } from 'api/services/posts/deletePost'
 
 type PostProps = {
   id: number
@@ -11,72 +12,23 @@ type PostProps = {
   text: string
 }
 
-const comments = [
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-  'lorem',
-]
-
 export const Post = ({ id, title, text }: PostProps) => {
   const [isCommentsModalOpen, setIsCommentsModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+
+  const [comments, setComments] = useState<any[]>([])
+
+  useEffect(() => {
+    if (!isCommentsModalOpen) return
+
+    async function fetchPostsData() {
+      const data = await getCommentsService(id)
+
+      setComments(data)
+    }
+
+    fetchPostsData()
+  }, [isCommentsModalOpen])
 
   function openCommentsModal() {
     setIsCommentsModalOpen(true)
@@ -91,10 +43,19 @@ export const Post = ({ id, title, text }: PostProps) => {
     setIsDeleteModalOpen(false)
   }
 
+  async function deletePost() {
+    try {
+      await deletePostService(id)
+      closeModals()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
-      <Modal.Container isOpen={isCommentsModalOpen} closeModal={closeModals}>
-        <Modal.Comments comments={comments} closeModal={closeModals} />
+      <Modal.Container title="Criar comentário" isOpen={isCommentsModalOpen} closeModal={closeModals}>
+        <Modal.Comments postId={id} comments={comments} closeModal={closeModals} />
         <Modal.Buttons confirmText="Fechar" onConfirm={closeModals} />
       </Modal.Container>
 
@@ -103,7 +64,7 @@ export const Post = ({ id, title, text }: PostProps) => {
           “Atenção! Ao excluir esta postagem os comentários também serão excluídos
         </p>
 
-        <Modal.Buttons confirmText="Excluir" onCancel={closeModals} onConfirm={closeModals} />
+        <Modal.Buttons confirmText="Excluir" onCancel={closeModals} onConfirm={deletePost} />
       </Modal.Container>
 
       <article className={styles.container} onClick={openCommentsModal}>
