@@ -5,6 +5,7 @@ import { roboto } from 'components/common/fonts'
 
 import type { Comment } from 'api/services/comments/getComments'
 import { createCommentService } from 'api/services/comments/createComment'
+import { useAlertModalContext } from 'contexts/alertModalContext'
 
 import styles from './comments.module.scss'
 
@@ -20,6 +21,7 @@ type CreateComment = {
 }
 
 export const Comments = ({ postId, comments, closeModal }: CommentsProps) => {
+  const { setErrorModal, setSuccessModal } = useAlertModalContext()
   const { register, handleSubmit, reset } = useForm<CreateComment>()
 
   function onCloseModal() {
@@ -36,8 +38,10 @@ export const Comments = ({ postId, comments, closeModal }: CommentsProps) => {
       })
 
       onCloseModal()
+
+      setSuccessModal('Comentário criado com sucesso!')
     } catch (error) {
-      console.log(error)
+      setErrorModal(() => createComment({ title, body }))
     }
   }
 

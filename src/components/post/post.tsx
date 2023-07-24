@@ -4,8 +4,9 @@ import { BsTrashFill } from 'react-icons/bs'
 import { Button } from 'components/common/button/button'
 import { Modal } from 'components/common/modal'
 
-import { getCommentsService } from 'api/services/comments/getComments'
+import { Comment, getCommentsService } from 'api/services/comments/getComments'
 import { deletePostService } from 'api/services/posts/deletePost'
+import { useAlertModalContext } from 'contexts/alertModalContext'
 
 import styles from './post.module.scss'
 
@@ -16,18 +17,24 @@ type PostProps = {
 }
 
 export const Post = ({ id, title, text }: PostProps) => {
+  const { setErrorModal, setSuccessModal } = useAlertModalContext()
   const [isCommentsModalOpen, setIsCommentsModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
-  const [comments, setComments] = useState<any[]>([])
+  const [comments, setComments] = useState<Comment[]>([])
 
   useEffect(() => {
     if (!isCommentsModalOpen) return
 
     async function fetchPostsData() {
-      const data = await getCommentsService(id)
+      try {
+        const data = await getCommentsService(id)
 
-      setComments(data)
+        setComments(data)
+      } catch (error) {
+        setIsCommentsModalOpen(false)
+        setErrorModal(fetchPostsData)
+      }
     }
 
     fetchPostsData()
@@ -50,14 +57,19 @@ export const Post = ({ id, title, text }: PostProps) => {
     try {
       await deletePostService(id)
       closeModals()
+      setSuccessModal('Post excluído com sucesso!')
     } catch (error) {
-      console.log(error)
+      setErrorModal(() => deletePostService(id))
     }
   }
 
   return (
     <>
-      <Modal.Container title="Criar comentário" isOpen={isCommentsModalOpen} closeModal={closeModals}>
+      <Modal.Container
+        title="Criar comentário"
+        isOpen={isCommentsModalOpen && comments.length > 0}
+        closeModal={closeModals}
+      >
         <Modal.Comments postId={id} comments={comments} closeModal={closeModals} />
         <Modal.Buttons confirmText="Fechar" onConfirm={closeModals} />
       </Modal.Container>
@@ -78,10 +90,6 @@ export const Post = ({ id, title, text }: PostProps) => {
         <p>{text}</p>
 
         <div className={styles.buttons} onClick={(event) => event.stopPropagation()}>
-          {/* <Button variant="secondary" onClick={openCommentsModal}>
-            Visualizar comentários
-          </Button> */}
-
           <Button variant="secondary" onClick={openDeletePostModal}>
             <BsTrashFill color="#414141" />
           </Button>

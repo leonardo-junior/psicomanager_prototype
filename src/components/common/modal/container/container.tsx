@@ -11,13 +11,15 @@ type ContainerProps = {
   title?: string
   closeModal: () => void
   children: ReactNode
+  zIndex?: boolean
 }
 
-export const Container = ({ title, isOpen, children, closeModal }: ContainerProps) => {
+export const Container = ({ title, isOpen, children, closeModal, zIndex }: ContainerProps) => {
   return (
     <div
       className={clsx({
         [styles.container]: true,
+        [styles.zIndex]: zIndex,
         [styles.open]: isOpen,
       })}
       onClick={closeModal}

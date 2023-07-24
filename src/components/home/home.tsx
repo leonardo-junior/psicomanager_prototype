@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { BsPlus } from 'react-icons/bs'
 
@@ -9,6 +10,7 @@ import { Modal } from 'components/common/modal'
 
 import { Post as PostType, getPostsService } from 'api/services/posts/getPosts'
 import { createPostService } from 'api/services/posts/createPost'
+import { useAlertModalContext } from 'contexts/alertModalContext'
 
 import styles from './home.module.scss'
 
@@ -20,7 +22,10 @@ type CreatePost = {
 export const Home = () => {
   const [posts, setPosts] = useState<PostType[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { setErrorModal, setSuccessModal } = useAlertModalContext()
   const { register, handleSubmit, reset } = useForm<CreatePost>()
+
+  const router = useRouter()
 
   useEffect(() => {
     fetchPostsData()
@@ -33,8 +38,8 @@ export const Home = () => {
       const dataSortedAlphabetically = data.sort((a, b) => a.title.localeCompare(b.title))
 
       setPosts(dataSortedAlphabetically)
-    } catch (error) {
-      console.log(error)
+    } catch (e) {
+      setErrorModal(() => router.reload())
     }
   }
 
@@ -43,8 +48,10 @@ export const Home = () => {
       await createPostService(post)
 
       closeModal()
-    } catch (error) {
-      console.log(error)
+
+      setSuccessModal('Postagem criada com sucesso!')
+    } catch (e) {
+      setErrorModal(() => createPost(post))
     }
   }
 

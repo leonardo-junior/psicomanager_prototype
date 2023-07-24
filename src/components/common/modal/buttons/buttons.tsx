@@ -3,17 +3,18 @@ import { Button } from 'components/common/button/button'
 import styles from './buttons.module.scss'
 
 type ButtonsProps = {
-  onCancel?: () => void
   onConfirm: () => void
+  onCancel?: () => void
   confirmText: string
+  cancelText?: string
 }
 
-export const Buttons = ({ onCancel, onConfirm, confirmText }: ButtonsProps) => {
+export const Buttons = ({ onCancel, onConfirm, confirmText, cancelText }: ButtonsProps) => {
   return (
     <div className={styles.container}>
       {onCancel && (
         <Button variant="secondary" onClick={onCancel}>
-          Cancelar
+          {cancelText || 'Cancelar'}
         </Button>
       )}
 
