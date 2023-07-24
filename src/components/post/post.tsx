@@ -93,8 +93,8 @@ export const Post = ({ id, title, text }: PostProps) => {
 
   return (
     <>
-      <Modal.Container title="Comentários" isOpen={isCommentsModalOpen} closeModal={closeModals}>
-        <Modal.Comments comments={comments} />
+      <Modal.Container isOpen={isCommentsModalOpen} closeModal={closeModals}>
+        <Modal.Comments comments={comments} closeModal={closeModals} />
         <Modal.Buttons confirmText="Fechar" onConfirm={closeModals} />
       </Modal.Container>
 
@@ -106,17 +106,17 @@ export const Post = ({ id, title, text }: PostProps) => {
         <Modal.Buttons confirmText="Excluir" onCancel={closeModals} onConfirm={closeModals} />
       </Modal.Container>
 
-      <article className={styles.container}>
+      <article className={styles.container} onClick={openCommentsModal}>
         <span>#{id}</span>
 
         <h1>{title}</h1>
 
         <p>{text}</p>
 
-        <div className={styles.buttons}>
-          <Button variant="secondary" onClick={openCommentsModal}>
+        <div className={styles.buttons} onClick={(event) => event.stopPropagation()}>
+          {/* <Button variant="secondary" onClick={openCommentsModal}>
             Visualizar comentários
-          </Button>
+          </Button> */}
 
           <Button variant="secondary" onClick={openDeletePostModal}>
             <BsTrashFill color="#414141" />

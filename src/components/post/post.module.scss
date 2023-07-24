@@ -11,12 +11,21 @@
     padding-bottom: 8px;
     border-bottom: 1px solid #CCC;
   }
+
+  @media (pointer: fine) {
+    cursor: pointer;
+  }
 }
 
 .buttons {
   display: flex;
-  margin-left: auto;
+  width: 100%;
   gap: 8px;
+  cursor: default;
+
+  button {
+    margin-left: auto;
+  }
 }
 
 .warning {
