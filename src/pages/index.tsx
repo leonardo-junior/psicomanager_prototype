@@ -7,7 +7,7 @@ export default function HomePage() {
   return (
     <>
       <Head>
-        <title>BlogPub | Home</title>
+        <title>Blog | Home</title>
 
         <meta name="description" content="Página de blog, com postagens" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

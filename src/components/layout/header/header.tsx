@@ -7,7 +7,7 @@ export const Header = () => {
     <div className={styles.container}>
       <header>
         <nav className={styles.logo}>
-          <Link href="/">BlogPub</Link>
+          <Link href="/">Blog</Link>
         </nav>
       </header>
     </div>
