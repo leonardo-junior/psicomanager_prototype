@@ -15,12 +15,13 @@ type ContainerProps = {
 }
 
 export const Container = ({ title, isOpen, children, closeModal, zIndex }: ContainerProps) => {
+  if (!isOpen) return null
+
   return (
     <div
       className={clsx({
         [styles.container]: true,
         [styles.zIndex]: zIndex,
-        [styles.open]: isOpen,
       })}
       onClick={closeModal}
     >

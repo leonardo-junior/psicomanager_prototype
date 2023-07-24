@@ -67,14 +67,12 @@ export const Comments = ({ postId, comments, setComments, closeModal }: Comments
         </div>
       </form>
 
-      <h2>Comentários</h2>
+      {comments.length > 0 && <h2>Comentários</h2>}
 
       <ul className={styles.comments}>
         {comments.map((comment, index) => (
           <li key={index}>
             <p>{comment.body}</p>
-
-            {/* <address>{comment.name}</address> */}
           </li>
         ))}
       </ul>

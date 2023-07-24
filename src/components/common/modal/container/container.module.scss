@@ -1,5 +1,5 @@
 .container {
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   position: fixed;
@@ -9,10 +9,6 @@
   bottom: 0;
   height: 100vh;
   background-color:  rgba(0, 0, 0, 0.35);
-}
-
-.open {
-  display: flex;
 }
 
 .zIndex {
@@ -26,8 +22,8 @@
   padding: 16px;
   border-radius: 8px;
   flex-direction: column;
-  max-width: 720px;
   width: 100%;
+  max-width: 720px;
   max-height: 80vh;
   margin: 16px;
   box-shadow: 2px 2px 7px 0px rgba(0, 0, 0, 0.1);
@@ -44,7 +40,7 @@
 
   @media screen and (min-width: 767px) {
     width: unset;
-    min-width: 480px;
+    width: 720px;
     margin: 32px;
   }
 }

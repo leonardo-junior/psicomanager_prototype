@@ -70,13 +70,8 @@ export const Post = ({ id, title, text, setPosts }: PostProps) => {
 
   return (
     <>
-      <Modal.Container
-        title="Criar comentário"
-        isOpen={isCommentsModalOpen && comments.length > 0}
-        closeModal={closeModals}
-      >
+      <Modal.Container title="Criar comentário" isOpen={isCommentsModalOpen} closeModal={closeModals}>
         <Modal.Comments setComments={setComments} postId={id} comments={comments} closeModal={closeModals} />
-        <Modal.Buttons confirmText="Fechar" onConfirm={closeModals} />
       </Modal.Container>
 
       <Modal.Container isOpen={isDeleteModalOpen} closeModal={closeModals}>
