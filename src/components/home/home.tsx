@@ -67,7 +67,7 @@ export const Home = () => {
 
   return (
     <>
-      <Modal.Container isOpen={isModalOpen} closeModal={closeModal}>
+      <Modal.Container title="Criar postagem" isOpen={isModalOpen} closeModal={closeModal}>
         <form className={styles.form}>
           <div>
             <label>Título</label>

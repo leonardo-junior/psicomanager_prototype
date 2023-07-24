@@ -64,7 +64,7 @@ export const Post = ({ id, title, text }: PostProps) => {
 
       <Modal.Container isOpen={isDeleteModalOpen} closeModal={closeModals}>
         <p className={styles.warning}>
-          “Atenção! Ao excluir esta postagem os comentários também serão excluídos
+          Atenção! Ao excluir esta postagem os comentários também serão excluídos
         </p>
 
         <Modal.Buttons confirmText="Excluir" onCancel={closeModals} onConfirm={deletePost} />
