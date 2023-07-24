@@ -1,8 +1,10 @@
-import { Button } from 'components/common/button/button'
-import styles from './container.module.scss'
-import { BsXLg } from 'react-icons/bs'
-import { ReactNode } from 'react'
 import clsx from 'clsx'
+import { BsXLg } from 'react-icons/bs'
+import type { ReactNode } from 'react'
+
+import { Button } from 'components/common/button/button'
+
+import styles from './container.module.scss'
 
 type ContainerProps = {
   isOpen: boolean

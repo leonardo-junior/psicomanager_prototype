@@ -1,9 +1,12 @@
-import { Button } from 'components/common/button/button'
-import styles from './comments.module.scss'
-import { roboto } from 'components/common/fonts'
 import { useForm } from 'react-hook-form'
-import { Comment } from 'api/services/comments/getComments'
+
+import { Button } from 'components/common/button/button'
+import { roboto } from 'components/common/fonts'
+
+import type { Comment } from 'api/services/comments/getComments'
 import { createCommentService } from 'api/services/comments/createComment'
+
+import styles from './comments.module.scss'
 
 type CommentsProps = {
   postId: number

@@ -1,6 +1,7 @@
-import { api } from 'api/api'
 import { AxiosResponse } from 'axios'
+
 import { Post } from './getPosts'
+import { api } from 'api/api'
 
 type CreatePost = {
   title: string

@@ -1,5 +1,6 @@
-import { roboto } from '../fonts'
 import clsx from 'clsx'
+
+import { roboto } from '../fonts'
 
 import styles from './button.module.scss'
 

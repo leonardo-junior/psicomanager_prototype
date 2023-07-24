@@ -1,4 +1,5 @@
 import { Button } from 'components/common/button/button'
+
 import styles from './buttons.module.scss'
 
 type ButtonsProps = {

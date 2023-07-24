@@ -1,10 +1,13 @@
+import { useEffect, useState } from 'react'
 import { BsTrashFill } from 'react-icons/bs'
-import styles from './post.module.scss'
+
 import { Button } from 'components/common/button/button'
 import { Modal } from 'components/common/modal'
-import { useEffect, useState } from 'react'
+
 import { getCommentsService } from 'api/services/comments/getComments'
 import { deletePostService } from 'api/services/posts/deletePost'
+
+import styles from './post.module.scss'
 
 type PostProps = {
   id: number

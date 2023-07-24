@@ -1,5 +1,6 @@
-import { api } from 'api/api'
 import { AxiosResponse } from 'axios'
+
+import { api } from 'api/api'
 
 export type Post = {
   userId: number

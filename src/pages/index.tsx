@@ -1,6 +1,7 @@
+import Head from 'next/head'
+
 import { Home } from 'components/home/home'
 import { Layout } from 'components/layout/layout'
-import Head from 'next/head'
 
 export default function HomePage() {
   return (

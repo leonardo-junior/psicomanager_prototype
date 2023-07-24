@@ -1,13 +1,16 @@
-import { Post } from 'components/post/post'
-import styles from './home.module.scss'
-import { Button } from 'components/common/button/button'
-import { BsPlus } from 'react-icons/bs'
-import { Modal } from 'components/common/modal'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { BsPlus } from 'react-icons/bs'
+
+import { Button } from 'components/common/button/button'
 import { roboto } from 'components/common/fonts'
+import { Post } from 'components/post/post'
+import { Modal } from 'components/common/modal'
+
 import { Post as PostType, getPostsService } from 'api/services/posts/getPosts'
 import { createPostService } from 'api/services/posts/createPost'
+
+import styles from './home.module.scss'
 
 type CreatePost = {
   title: string

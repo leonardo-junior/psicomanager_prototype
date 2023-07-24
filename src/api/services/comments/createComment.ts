@@ -1,6 +1,7 @@
-import { api } from 'api/api'
 import { AxiosResponse } from 'axios'
+
 import { Post } from '../posts/getPosts'
+import { api } from 'api/api'
 
 type CreateComment = {
   postId: number
