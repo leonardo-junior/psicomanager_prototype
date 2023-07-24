@@ -1,5 +1,3 @@
-import { AxiosResponse } from 'axios'
-
 import { api } from 'api/api'
 
 export type Comment = {
@@ -11,7 +9,7 @@ export type Comment = {
 }
 
 export const getCommentsService = async (id: number) => {
-  const { data }: AxiosResponse<Comment[]> = await api.get(`/comments?postId=${id}`)
+  const { data } = await api.get<Comment[]>(`/comments?postId=${id}`)
 
   return data
 }

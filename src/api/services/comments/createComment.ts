@@ -1,5 +1,3 @@
-import { AxiosResponse } from 'axios'
-
 import { Post } from '../posts/getPosts'
 import { api } from 'api/api'
 
@@ -10,7 +8,7 @@ type CreateComment = {
 }
 
 export const createCommentService = async (body: CreateComment) => {
-  const { data }: AxiosResponse<Post> = await api.post(`/comments`, { ...body })
+  const { data } = await api.post<Post>(`/comments`, { ...body })
 
   return data
 }
