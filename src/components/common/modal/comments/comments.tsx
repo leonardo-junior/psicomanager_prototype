@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form'
+import { Dispatch, SetStateAction } from 'react'
 
 import { Button } from 'components/common/button/button'
 import { roboto } from 'components/common/fonts'
@@ -12,7 +13,8 @@ import styles from './comments.module.scss'
 type CommentsProps = {
   postId: number
   closeModal: () => void
-  comments: Comment[]
+  comments: Partial<Comment>[]
+  setComments: Dispatch<SetStateAction<Partial<Comment>[]>>
 }
 
 type CreateComment = {
@@ -20,7 +22,7 @@ type CreateComment = {
   body: string
 }
 
-export const Comments = ({ postId, comments, closeModal }: CommentsProps) => {
+export const Comments = ({ postId, comments, setComments, closeModal }: CommentsProps) => {
   const { setErrorModal, setSuccessModal } = useAlertModalContext()
   const { register, handleSubmit, reset } = useForm<CreateComment>()
 
@@ -31,13 +33,13 @@ export const Comments = ({ postId, comments, closeModal }: CommentsProps) => {
 
   async function createComment({ title, body }: CreateComment) {
     try {
-      await createCommentService({
+      const comment = await createCommentService({
         title,
         body,
         postId,
       })
 
-      onCloseModal()
+      setComments((prev) => [...prev, comment])
 
       setSuccessModal('Comentário criado com sucesso!')
     } catch (error) {
@@ -72,7 +74,7 @@ export const Comments = ({ postId, comments, closeModal }: CommentsProps) => {
           <li key={index}>
             <p>{comment.body}</p>
 
-            <address>{comment.name}</address>
+            {/* <address>{comment.name}</address> */}
           </li>
         ))}
       </ul>

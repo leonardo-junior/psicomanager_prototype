@@ -45,9 +45,15 @@ export const Home = () => {
 
   async function createPost(post: CreatePost) {
     try {
-      await createPostService(post)
+      const posted = await createPostService(post)
 
       closeModal()
+
+      setPosts((prev) => {
+        const postFake = { ...posted, id: prev.length + 1 }
+        const dataSortedAlphabetically = [...prev, postFake].sort((a, b) => a.title.localeCompare(b.title))
+        return dataSortedAlphabetically
+      })
 
       setSuccessModal('Postagem criada com sucesso!')
     } catch (e) {
@@ -102,7 +108,7 @@ export const Home = () => {
             <ul className={styles.posts}>
               {posts.map(({ title, body, id }) => (
                 <li key={id}>
-                  <Post id={id} title={title} text={body} />
+                  <Post id={id} title={title} text={body} setPosts={setPosts} />
                 </li>
               ))}
             </ul>

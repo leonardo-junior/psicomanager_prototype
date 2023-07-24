@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { BsTrashFill } from 'react-icons/bs'
 
 import { Button } from 'components/common/button/button'
@@ -6,6 +6,7 @@ import { Modal } from 'components/common/modal'
 
 import { Comment, getCommentsService } from 'api/services/comments/getComments'
 import { deletePostService } from 'api/services/posts/deletePost'
+import { Post as PostType } from 'api/services/posts/getPosts'
 import { useAlertModalContext } from 'contexts/alertModalContext'
 
 import styles from './post.module.scss'
@@ -14,14 +15,15 @@ type PostProps = {
   id: number
   title: string
   text: string
+  setPosts: Dispatch<SetStateAction<PostType[]>>
 }
 
-export const Post = ({ id, title, text }: PostProps) => {
+export const Post = ({ id, title, text, setPosts }: PostProps) => {
   const { setErrorModal, setSuccessModal } = useAlertModalContext()
   const [isCommentsModalOpen, setIsCommentsModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
-  const [comments, setComments] = useState<Comment[]>([])
+  const [comments, setComments] = useState<Partial<Comment>[]>([])
 
   useEffect(() => {
     if (!isCommentsModalOpen) return
@@ -57,6 +59,9 @@ export const Post = ({ id, title, text }: PostProps) => {
     try {
       await deletePostService(id)
       closeModals()
+
+      setPosts((prev) => prev.filter((post) => post.id !== id))
+
       setSuccessModal('Post excluído com sucesso!')
     } catch (error) {
       setErrorModal(() => deletePostService(id))
@@ -70,7 +75,7 @@ export const Post = ({ id, title, text }: PostProps) => {
         isOpen={isCommentsModalOpen && comments.length > 0}
         closeModal={closeModals}
       >
-        <Modal.Comments postId={id} comments={comments} closeModal={closeModals} />
+        <Modal.Comments setComments={setComments} postId={id} comments={comments} closeModal={closeModals} />
         <Modal.Buttons confirmText="Fechar" onConfirm={closeModals} />
       </Modal.Container>
 

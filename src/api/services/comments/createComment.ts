@@ -1,5 +1,6 @@
-import { Post } from '../posts/getPosts'
 import { api } from 'api/api'
+
+import { Comment } from './getComments'
 
 type CreateComment = {
   postId: number
@@ -8,7 +9,7 @@ type CreateComment = {
 }
 
 export const createCommentService = async (body: CreateComment) => {
-  const { data } = await api.post<Post>(`/comments`, { ...body })
+  const { data } = await api.post<Partial<Comment>>(`/comments`, { ...body })
 
   return data
 }
